@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   easyfind.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leanakache <leanakache@student.42.fr>      +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 23:09:30 by leanakache        #+#    #+#             */
-/*   Updated: 2026/01/24 23:09:50 by leanakache       ###   ########.fr       */
+/*   Updated: 2026/02/26 18:51:25 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 #include <iostream>
-#include <string>
-#include <cstddef>
 #include <stdexcept>
 #include <list>
+#include <algorithm>
 
 
 #define RED     "\033[0;91m"
