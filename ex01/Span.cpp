@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Span.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leanakache <leanakache@student.42.fr>      +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 10:50:08 by leanakache        #+#    #+#             */
-/*   Updated: 2026/01/29 21:50:31 by leanakache       ###   ########.fr       */
+/*   Updated: 2026/02/26 19:44:08 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,60 +14,82 @@
 
 const std::vector<int> &Span::getVar(void) const
 {
-    return (_var);
+	return (_var);
 }
 
-//Méthodes
+// Méthodes
 unsigned int Span::shortestSpan(void) const
 {
-    int span = INT_MAX;
-	int spanew = 0;
-    
-    if (this->_var.empty() || _var.size() == 1)
-        throw std::length_error ("Exception: Empty or size 1 vector");
-    else
+    if (_var.size() <= 1)
+        throw std::length_error("Not enough elements");
+
+    std::vector<int> tmp = _var;
+    std::sort(tmp.begin(), tmp.end());
+
+    unsigned int minSpan = UINT_MAX;
+
+    for (size_t i = 1; i < tmp.size(); i++)
     {
-        for (size_t i = 0; i < _var.size(); i++)
-        {
-            for (size_t j = 0; j < _var.size(); j++)
-            {
+        unsigned int diff = tmp[i] - tmp[i - 1];
+        if (diff < minSpan)
+            minSpan = diff;
+    }
+    return (minSpan);
+/* 	int span = INT_MAX;
+	int spanew = 0;
+
+	if (this->_var.empty() || _var.size() == 1)
+		throw std::length_error("Exception: Empty or size 1 vector");
+	else
+	{
+		for (size_t i = 0; i < _var.size(); i++)
+		{
+			for (size_t j = 0; j < _var.size(); j++)
+			{
 				if (i == j)
 					continue ;
-                spanew = abs(_var[j] - _var[i]);
-                if (spanew < span)
+				spanew = abs(_var[j] - _var[i]);
+				if (spanew < span)
 					span = spanew;
-            }
-        }
-    }
-    return (span);
+			}
+		}
+	} */
+	//return (span);
 }
 
 unsigned int Span::longestSpan(void) const
 {
-    int span = 0;
-	int spanew = 0;
+    if (_var.size() <= 1)
+        throw std::length_error("Not enough elements");
     
-    if (this->_var.empty() || _var.size() == 1)
-        throw std::length_error ("Exception: Empty or size 1 vector");
-    else
-    {
-        for (size_t i = 0; i < _var.size(); i++)
-        {
-            for (size_t j = 0; j < _var.size(); j++)
-            {
+    int min = *std::min_element(_var.begin(), _var.end());
+    int max = *std::max_element(_var.begin(), _var.end());
+
+    return static_cast<unsigned int>(max - min);
+	/* int span = 0;
+	int spanew = 0;
+
+	if (this->_var.empty() || _var.size() == 1)
+		throw std::length_error("Exception: Empty or size 1 vector");
+	else
+	{
+		for (size_t i = 0; i < _var.size(); i++)
+		{
+			for (size_t j = 0; j < _var.size(); j++)
+			{
 				if (i == j)
 					continue ;
-                spanew = abs(_var[j] - _var[i]);
-                if (spanew > span)
+				spanew = abs(_var[j] - _var[i]);
+				if (spanew > span)
 					span = spanew;
-            }
-        }
-    }
-    return (span);
+			}
+		}
+	}
+	return (span); */
 }
 
-
-void Span::addMore(std::vector<int>::const_iterator begin, std::vector<int>::const_iterator end)
+void Span::addMore(std::vector<int>::const_iterator begin,
+	std::vector<int>::const_iterator end)
 {
 	if (_var.size() + std::distance(begin, end) > _N)
 		throw std::out_of_range("Exception: Impossible to add this many numbers");
@@ -76,43 +98,43 @@ void Span::addMore(std::vector<int>::const_iterator begin, std::vector<int>::con
 
 void Span::addNumber(int toAdd)
 {
-    if (this->_var.size() >= this->_N)
-        throw std::out_of_range("Exception: Array index out of bounds");
-    else
-    {
-        _var.push_back(toAdd);            
-    }
+	if (this->_var.size() >= this->_N)
+		throw std::out_of_range("Exception: Array index out of bounds");
+	else
+	{
+		_var.push_back(toAdd);
+	}
 }
 
-//Assignement operator
-Span &Span::operator=(const Span & other)
+// Assignement operator
+Span &Span::operator=(const Span &other)
 {
-    if (this != &other)
-       _var = other._var;
-    std::cout << "Assignment operator called" << std::endl;
-    return (*this);
+	if (this != &other)
+		_var = other._var;
+	std::cout << "Assignment operator called" << std::endl;
+	return (*this);
 }
 
-//Constructeur copie
-Span::Span(const Span & other): _var(other._var), _N(other._N)
+// Constructeur copie
+Span::Span(const Span &other) : _var(other._var), _N(other._N)
 {
-    std::cout << "Copy constructor called" << std::endl;
+	//std::cout << "Copy constructor called" << std::endl;
 }
 
-//Constructeur avec param
-Span::Span(unsigned int N): _var(),  _N(N) 
+// Constructeur avec param
+Span::Span(unsigned int N) : _var(), _N(N)
 {
-    std::cout << "Constructor with param called" << std::endl;
+	//std::cout << "Constructor with param called" << std::endl;
 }
 
-//Constructeur par défaut avec N à 0
-Span::Span(void) : _var(), _N(0) 
+// Constructeur par défaut avec N à 0
+Span::Span(void) : _var(), _N(0)
 {
-    std::cout << "Default constructor called" << std::endl;
+	//std::cout << "Default constructor called" << std::endl;
 }
 
-//Destructeur
+// Destructeur
 Span::~Span(void)
 {
-    std::cout << "Destructor called" << std::endl;
+	//std::cout << "Destructor called" << std::endl;
 }
