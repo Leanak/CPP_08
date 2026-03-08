@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 19:01:55 by lenakach          #+#    #+#             */
-/*   Updated: 2026/03/07 22:42:48 by lenakach         ###   ########.fr       */
+/*   Updated: 2026/03/08 16:42:21 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,13 @@ class Span
 		unsigned int getSize(void) const;
 };
 
-#include "Span.tpp"
+template<typename Iterator>
+void Span::addMore(Iterator begin, Iterator end)
+{
+	if (_var.size() + std::distance(begin, end) > _N)
+		throw std::out_of_range("Exception: Impossible to add this many number");	
+
+	_var.insert(_var.end(), begin, end);
+}
+
+//#include "Span.tpp"
