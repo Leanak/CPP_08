@@ -5,36 +5,52 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/26 19:29:08 by leanakache        #+#    #+#             */
-/*   Updated: 2026/02/26 19:39:56 by lenakach         ###   ########.fr       */
+/*   Created: 2026/03/07 19:01:55 by lenakach          #+#    #+#             */
+/*   Updated: 2026/03/07 22:42:48 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-#include <cstdlib>
-#include <exception>
+
 #include <iostream>
-#include <climits>
-#include <numeric>
 #include <vector>
 #include <algorithm>
+#include <climits>
+#include <list>
 
+//Couleurs
+#define RED     "\033[0;91m"
+#define GREEN   "\033[0;92m"
+#define MAGENTA "\033[0;95m"
+
+#define BOLD       "\033[1m"
+#define UNDERLINE  "\033[4m"
+#define ITALIC     "\033[3m"
+
+#define END "\033[0m"
+
+//Class
 class Span
 {
-  private:
-	std::vector<int> _var;
-	const unsigned int _N;
+	private:
+		unsigned int _N;
+		std::vector<int> _var;
+	public:
+		Span(void);
+		Span(unsigned int var);
+		~Span(void);
+		Span(const Span & other);
+		Span &operator=(const Span & other);
 
-  public:
-	unsigned int shortestSpan(void) const;
-	unsigned int longestSpan(void) const;
-	const std::vector<int> &getVar(void) const;
-	void addNumber(int toAdd);
-	void addMore(std::vector<int>::const_iterator begin,
-		std::vector<int>::const_iterator end);
-	Span(void);
-	Span(unsigned int N);
-	~Span(void);
-	Span(const Span &other);
-	Span &operator=(const Span &other);
+		template<typename Iterator>
+		void addMore(Iterator first, Iterator second);
+		
+		void addNumber(int toAdd);
+		unsigned int shortestSpan(void) const;
+		unsigned int longestSpan(void) const;
+
+		std::vector<int> getVar(void) const;
+		unsigned int getSize(void) const;
 };
+
+#include "Span.tpp"
